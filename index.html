@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Justin Medich: M.S. Computer Science, UT Austin. Robotics, embedded Linux, computer vision and reinforcement learning.">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Justin Medich</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: two-column lab-notebook — fixed identity rail on the left, sections labeled as ROS-style topics on the right; stacks on phones. */
+:root {
+  --bg: #eef1f3;
+  --surface: #f8fafb;
+  --ink: #15212c;
+  --muted: #5a6875;
+  --rule: #d3dae0;
+  --accent: #1f5fa8;
+  --accent-soft: #dfe8f3;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11171d; --surface: #182029; --ink: #e4e9ee; --muted: #93a1ae;
+    --rule: #2a3540; --accent: #7fb0ec; --accent-soft: #1d2d40; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11171d; --surface: #182029; --ink: #e4e9ee; --muted: #93a1ae;
+  --rule: #2a3540; --accent: #7fb0ec; --accent-soft: #1d2d40; color-scheme: dark;
+}
+
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 56px 72px;
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 64px; align-items: start;
+}
+
+/* Identity rail */
+.rail { position: sticky; top: calc(40px + env(safe-area-inset-top, 0px)); display: grid; gap: 28px; }
+.name {
+  font-family: var(--font-display); font-weight: 700; font-size: 3.1rem; line-height: 0.98;
+  letter-spacing: -0.02em; margin: 0; text-wrap: balance;
+}
+.role { margin: 12px 0 0; color: var(--muted); font-size: 1rem; }
+.role strong { color: var(--ink); font-weight: 600; }
+.contact { display: grid; gap: 10px; font-family: var(--font-mono); font-size: 0.86rem; }
+.contact-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.contact-row .k { color: var(--muted); width: 64px; flex: none; }
+.contact-row span.v { user-select: all; overflow-wrap: anywhere; }
+.copy {
+  font: inherit; font-size: 0.75rem; color: var(--accent); background: var(--accent-soft);
+  border: 0; border-radius: 4px; padding: 2px 8px; cursor: pointer;
+}
+.copy:hover { filter: brightness(0.97); }
+.stack { display: grid; gap: 14px; }
+.stack h3 {
+  margin: 0; font-family: var(--font-mono); font-weight: 500; font-size: 0.72rem;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.chips li {
+  font-family: var(--font-mono); font-size: 0.8rem; padding: 3px 9px;
+  border: 1px solid var(--rule); border-radius: 4px; background: var(--surface);
+}
+
+/* Content */
+main { display: grid; gap: 64px; min-width: 0; }
+.intro { font-size: 1.22rem; line-height: 1.55; max-width: 60ch; margin: 0; text-wrap: pretty; }
+.intro em { font-style: normal; color: var(--accent); }
+
+section { display: grid; gap: 24px; }
+.topic {
+  display: flex; align-items: baseline; gap: 14px; margin: 0;
+  border-bottom: 1px solid var(--rule); padding-bottom: 10px;
+}
+.topic h2 {
+  margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 1.6rem; letter-spacing: -0.01em;
+}
+.topic code { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); }
+
+.entries { display: grid; gap: 32px; }
+.entry { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 24px; }
+.when {
+  font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted);
+  padding-top: 4px; font-variant-numeric: tabular-nums;
+}
+.entry h3 { margin: 0; font-size: 1.08rem; font-weight: 600; line-height: 1.35; text-wrap: balance; }
+.entry .org { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+.entry ul { margin: 12px 0 0; padding-left: 18px; display: grid; gap: 8px; max-width: 64ch; }
+.entry ul li::marker { color: var(--accent); }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: 0.92rem; }
+.meta span b { font-weight: 600; }
+.course { margin: 12px 0 0; font-size: 0.92rem; color: var(--muted); max-width: 64ch; }
+.course b { color: var(--ink); font-weight: 500; }
+
+.project {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 22px 24px; display: grid; gap: 10px;
+}
+.project h3 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+.project p { margin: 0; max-width: 64ch; }
+.projects { display: grid; gap: 16px; }
+.project .area { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.project h3 { text-wrap: balance; line-height: 1.3; }
+.project .authors { font-size: 0.9rem; color: var(--muted); }
+.project .result { font-size: 0.94rem; border-left: 2px solid var(--accent); padding-left: 12px; }
+.project .result b { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+.project .paper { justify-self: start; display: inline-flex; align-items: baseline; gap: 10px; margin-top: 4px; font-weight: 600; font-size: 0.92rem; text-decoration: none; }
+.project .paper:hover { text-decoration: underline; }
+.project .paper span { font-family: var(--font-mono); font-weight: 400; font-size: 0.74rem; color: var(--muted); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; padding: 0; list-style: none; }
+.tags li { font-family: var(--font-mono); font-size: 0.74rem; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 4px; }
+
+footer { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 16px; }
+
+@media (max-width: 860px) {
+  body { padding-block: 32px 56px; }
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+  .rail { position: static; }
+  .name { font-size: 2.6rem; }
+}
+@media (max-width: 560px) {
+  .entry { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .when { padding-top: 0; }
+  .intro { font-size: 1.1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <aside class="rail">
+    <div>
+      <h1 class="name">Justin<br>Medich</h1>
+      <p class="role"><strong>M.S. Computer Science</strong>, UT Austin<br>Robotics · Embedded Linux · Computer Vision</p>
+    </div>
+
+    <div class="contact">
+      <div class="contact-row"><span class="k">email</span><span class="v" id="email">jmedich@utexas.edu</span><button class="copy" id="copy-email" type="button">copy</button></div>
+      <div class="contact-row"><span class="k">linkedin</span><a href="https://linkedin.com/in/justinSmedich">justinSmedich</a></div>
+      <div class="contact-row"><span class="k">based</span><span>Austin, TX</span></div>
+    </div>
+
+    <div class="stack">
+      <h3>Languages</h3>
+      <ul class="chips"><li>Python</li><li>C</li><li>C++</li><li>Rust</li><li>Go</li><li>Kotlin</li><li>Java</li><li>Clojure / Lisp</li></ul>
+    </div>
+    <div class="stack">
+      <h3>Systems &amp; Tools</h3>
+      <ul class="chips"><li>ROS / ROS 2</li><li>Yocto</li><li>Linux kernel</li><li>PyTorch</li><li>LeanIX</li><li>Excel</li></ul>
+    </div>
+  </aside>
+
+  <main>
+    <p class="intro">I build software where it meets hardware: custom <em>embedded Linux</em> images for industrial controllers, <em>perception and mapping pipelines</em> that help robots work in spaces built for people, and <em>reinforcement learning</em> agents that explore and check their own work.</p>
+
+    <section id="experience">
+      <div class="topic"><h2>Experience</h2><code>/experience</code></div>
+      <div class="entries">
+        <article class="entry">
+          <div class="when">May – Aug 2024</div>
+          <div>
+            <h3>Software Engineering Intern</h3>
+            <p class="org">Emerson Automation Solutions · Round Rock, TX</p>
+            <ul>
+              <li>Built and deployed a custom Linux image with the Yocto pipeline to replace QNX on Emerson's embedded hardware, tuning performance, integrating the required drivers and libraries, and writing scripts to streamline development.</li>
+              <li>Diagnosed and fixed issues across the large DeltaV codebase during the QNX-to-Linux transition, keeping systems compatible and functional.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="when">Feb – Aug 2023</div>
+          <div>
+            <h3>Undergraduate Research Assistant</h3>
+            <p class="org">Living and Working with Robots Lab · UT Austin</p>
+            <ul>
+              <li>Helped build a semantic mapping pipeline that produces a knowledge base for robot interaction in human environments.</li>
+              <li>Designed and implemented a label propagation process using the Segment Anything Model.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="when">Jun – Aug 2022</div>
+          <div>
+            <h3>Undergraduate Research Assistant</h3>
+            <p class="org">Good Systems · UT Austin</p>
+            <ul>
+              <li>Migrated UT's BWI libraries from ROS 1 to ROS 2 for the new BWI v5 robot.</li>
+              <li>Implemented competition tasks for UT's RoboCup@Home team.</li>
+              <li>Refined a gaze study quantifying what causes the Mona Lisa Effect.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="when">Jun – Aug 2021</div>
+          <div>
+            <h3>Summer Intern</h3>
+            <p class="org">AbbVie Pharmaceutical R&amp;D · North Chicago, IL</p>
+            <ul>
+              <li>Ran application rationalization across AbbVie and Allergan programs to consolidate tasks and reduce systems complexity.</li>
+              <li>Built application-landscape reports in LeanIX and Power BI to show the team where rationalization was needed.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="topic"><h2>Research &amp; Projects</h2><code>/projects</code></div>
+      <div class="projects">
+        <article class="project">
+          <p class="area">Robotics · SLAM</p>
+          <h3>Adapting PIDNet for Low-Latency Dynamic SLAM</h3>
+          <p>A real-time dynamic SLAM pipeline that masks moving people before keypoint extraction, so ORB-SLAM tracks only the static background. A lightweight PIDNet segmenter, trained on pseudo-labels generated by the Segment Anything Model, runs inside the ORB-SLAM C++ tracking thread through LibTorch.</p>
+          <p class="result"><b>51%</b> lower absolute trajectory error on linear camera motion in TUM RGB-D. The report also analyzes feature starvation during heavy rotation and proposes adaptive feature thresholds.</p>
+          <ul class="tags"><li>ORB-SLAM</li><li>PIDNet</li><li>SAM</li><li>LibTorch</li><li>C++</li></ul>
+          <a class="paper" href="papers/dynamic-slam-pidnet.pdf" target="_blank" rel="noopener">Read paper <span>PDF · 7 pp</span></a>
+        </article>
+
+        <article class="project">
+          <p class="area">Computer Vision · 3D Gaussian Splatting</p>
+          <h3>High-Fidelity Static Mapping via Decoupled Vibrational Gaussians</h3>
+          <p>Dual-Vibration PVG extends Periodic Vibration Gaussians with a learnable, time-dependent color term, so moving shadows are explained by changes in color instead of by moving or deleting static geometry. A tiered regularizer penalizes geometric velocity more than color change.</p>
+          <p class="result">Reduces shadow ghosting on KITTI driving sequences, with gains in PSNR, L1 and LPIPS over the baseline, while keeping real-time rendering. Includes a custom interactive viewer for side-by-side ablations.</p>
+          <ul class="tags"><li>4D Gaussians</li><li>novel view synthesis</li><li>KITTI</li></ul>
+          <a class="paper" href="papers/dual-vibration-gaussians.pdf" target="_blank" rel="noopener">Read paper <span>PDF · 4 pp</span></a>
+        </article>
+
+        <article class="project">
+          <p class="area">Robotics · Semantic Mapping</p>
+          <h3>Propagating Semantic Labels in Video Data</h3>
+          <p class="authors">David Balaban, Justin Medich, Pranay Gosar and Justin Hart · Living and Working with Robots Lab</p>
+          <p>A Semantic Label Propagation system that cuts the manual labeling needed to build segmentation datasets from video. The video is reconstructed into 3D with Structure from Motion, one frame is segmented with the Segment Anything Model, and those segments are projected onto the 3D geometry and reprojected into later frames, so SAM runs far less often. Four variants compare SAM-only and SfM-guided prompt selection.</p>
+          <p class="result">Evaluated on five manually labeled videos for run time, mask IoU and tracking loss. The system labels frames much faster than human annotators, with lower accuracy.</p>
+          <ul class="tags"><li>SAM</li><li>Structure from Motion</li><li>segmentation</li><li>tracking</li></ul>
+          <a class="paper" href="papers/semantic-label-propagation.pdf" target="_blank" rel="noopener">Read paper <span>PDF · 7 pp</span></a>
+        </article>
+
+        <article class="project">
+          <p class="area">Reinforcement Learning · Exploration</p>
+          <h3>Intrinsic Motivation for Open-Ended Exploration</h3>
+          <p>Tests whether intrinsic rewards alone (surprise, novelty and empowerment) can drive useful exploration in the partially observable 3D MiniWorld environment, with no task reward. Coverage is measured by clustering visual embeddings of what the agent sees.</p>
+          <p class="result">Intrinsically motivated agents develop distinct exploration strategies and beat an undirected baseline on state coverage. Training stability and balancing signal magnitudes remain open problems.</p>
+          <ul class="tags"><li>curiosity</li><li>empowerment</li><li>MiniWorld</li></ul>
+          <a class="paper" href="papers/intrinsic-motivation-exploration.pdf" target="_blank" rel="noopener">Read paper <span>PDF · 8 pp</span></a>
+        </article>
+
+        <article class="project">
+          <p class="area">Reinforcement Learning · Language Models</p>
+          <h3>Reinforcement Learning for Self-Verifying Code Generation</h3>
+          <p>Trains a code model to write its own unit tests and predict its program's execution trace alongside the solution, then rewards agreement between those predictions and the program's real behavior. Uses MBPP augmented with gold execution traces and a PPO training pipeline.</p>
+          <p class="result">Improves code accuracy and reasoning consistency over a supervised baseline.</p>
+          <ul class="tags"><li>PPO</li><li>MBPP</li><li>execution traces</li></ul>
+          <a class="paper" href="papers/self-verifying-code-generation.pdf" target="_blank" rel="noopener">Read paper <span>PDF · 8 pp</span></a>
+        </article>
+
+        <article class="project">
+          <p class="area">Computer Vision · Video Understanding</p>
+          <h3>Towards Maximizing Muscle Growth in Motion</h3>
+          <p class="authors">With Abbhinav Jayaraman, Salvador Robles and Joseph Stanley</p>
+          <p>Evaluates exercise videos on three binary tasks (good or bad tempo, form and range of motion) using the Qualcomm Exercise Video Dataset. Compares InternVideo2, ChatPose and Temporal Cycle Consistency. Tempo, which matters for hypertrophy, had not been addressed by earlier feedback systems.</p>
+          <p class="result">Shows a trade-off between general video understanding and fine-grained motion capture.</p>
+          <ul class="tags"><li>InternVideo2</li><li>ChatPose</li><li>TCC</li><li>QEVD</li></ul>
+          <a class="paper" href="papers/muscle-growth-in-motion.pdf" target="_blank" rel="noopener">Read paper <span>PDF · 8 pp</span></a>
+        </article>
+
+        <article class="project">
+          <p class="area">Graphics · Physical Simulation</p>
+          <h3>Cloth Simulation with Robust Collision Handling</h3>
+          <p>A position-based dynamics cloth simulator following Bridson et al.'s approach to collisions, contact and friction. Uses a bounding volume hierarchy for proximity queries, continuous collision detection for edge-edge and vertex-triangle cases, repulsion forces, impulse response and Coulomb friction.</p>
+          <ul class="tags"><li>PBD</li><li>BVH</li><li>continuous collision detection</li></ul>
+          <a class="paper" href="papers/cloth-simulation.pdf" target="_blank" rel="noopener">Read paper <span>PDF · 3 pp</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="topic"><h2>Education</h2><code>/education</code></div>
+      <div class="entries">
+        <article class="entry">
+          <div class="when">May 2026</div>
+          <div>
+            <h3>M.S. Computer Science</h3>
+            <p class="org">The University of Texas at Austin</p>
+            <div class="meta"><span><b>GPA</b> 3.69</span></div>
+            <p class="course"><b>Coursework:</b> Human-Computer Interaction, Scientific Computation &amp; Deep Learning, Distributed Systems, Computer Vision, Physical Simulation, Cryptography</p>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="when">May 2024</div>
+          <div>
+            <h3>B.S. Computer Science</h3>
+            <p class="org">The University of Texas at Austin</p>
+            <div class="meta"><span><b>GPA</b> 3.9</span></div>
+            <p class="course"><b>Coursework:</b> Computer Organization &amp; Architecture, Data Structures, Linear Algebra, Operating Systems, Compilers, Algorithms &amp; Complexity, Concurrency, Artificial Intelligence, Machine Learning, Neural Networks, Natural Language Processing, Symbolic Programming, Game Technologies, Android Development, UT Robotics Freshman Research Program</p>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="when">May 2021</div>
+          <div>
+            <h3>Deerfield High School</h3>
+            <p class="org">Deerfield, IL</p>
+            <div class="meta"><span><b>GPA</b> 4.75</span><span>Valedictorian</span><span>Robotics team lead &amp; lead programmer, 3 years</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="leadership">
+      <div class="topic"><h2>Leadership</h2><code>/leadership</code></div>
+      <article class="entry">
+        <div class="when">2012 – 2020</div>
+        <div>
+          <h3>Eagle Scout</h3>
+          <p class="org">Boy Scouts of America</p>
+        </div>
+      </article>
+    </section>
+
+    <footer>Justin Medich · Austin, TX · updated Oct 2026</footer>
+  </main>
+</div>
+
+<script>
+document.getElementById('copy-email').addEventListener('click', function () {
+  var btn = this, text = document.getElementById('email').textContent;
+  function done(label) { btn.textContent = label; setTimeout(function () { btn.textContent = 'copy'; }, 1600); }
+  function fallback() {
+    var r = document.createRange(); r.selectNodeContents(document.getElementById('email'));
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); done('selected');
+  }
+  try {
+    navigator.clipboard.writeText(text).then(function () { done('copied'); }, fallback);
+  } catch (e) { fallback(); }
+});
+</script>
+</body>
+</html>
